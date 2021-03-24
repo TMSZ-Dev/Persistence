@@ -72,5 +72,4 @@ client.on("message", msg => {
     return;
 });
 
-// Log the bot in with the token from environment variables
 client.login(process.env.PST_TOKEN);
