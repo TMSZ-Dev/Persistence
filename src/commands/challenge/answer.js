@@ -26,8 +26,8 @@ module.exports = {
             client.guilds.fetch(process.env.GUILD_ID).then(guild => {
                 guild.members.fetch(msg.author.id).then(user => {
                     // Only administrators and server owners can set the answer
-                    // if (!user.hasPermission("ADMINISTRATOR", { checkOwner: true }))
-                    //     return msg.reply("only administrators and owners can set the answer.");
+                    if (!user.hasPermission("ADMINISTRATOR", { checkOwner: true }))
+                        return msg.reply("only administrators and owners can set the answer.");
 
                     // Make sure the answer to set is a number
                     if (isNaN(args[1]))
@@ -55,8 +55,8 @@ module.exports = {
             client.guilds.fetch(process.env.GUILD_ID).then(guild => {
                 guild.members.fetch(msg.author.id).then(user => {
                     // Only administrators and server owners can set the answer
-                    // if (!user.hasPermission("ADMINISTRATOR"))
-                    //     return msg.reply("only administrators and owners can set the role.");
+                    if (!user.hasPermission("ADMINISTRATOR"))
+                        return msg.reply("only administrators and owners can set the role.");
                     
                     // Missing the required role mention or id
                     if (!args[1])
@@ -85,8 +85,8 @@ module.exports = {
             client.guilds.fetch(process.env.GUILD_ID).then(guild => {
                 guild.members.fetch(msg.author.id).then(user => {
                     // Only administrators and server owners can set the answer
-                    // if (!user.hasPermission("ADMINISTRATOR", { checkOwner: true }))
-                    //     return msg.reply("only administrators and owners can set the channel.");
+                    if (!user.hasPermission("ADMINISTRATOR", { checkOwner: true }))
+                        return msg.reply("only administrators and owners can set the channel.");
 
                     // Missing the required channel mention or id
                     if (!args[1])
