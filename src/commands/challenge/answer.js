@@ -117,14 +117,10 @@ module.exports = {
                     if (!user.hasPermission("ADMINISTRATOR", { checkOwner: true }))
                         return msg.reply("only administrators and owners can set the channel.");
 
-                    //remove solver role
-                    guild.roles.fetch(answer.role).then(role => {
-                        const members = role.members;
-
-                        members.forEach(member => member.roles.remove(answer.role));
-                    });
+                    // Remove the solver role from all members
+                    guild.roles.fetch(answer.role).then(role => role.members.forEach(member => member.roles.remove(role)));
                     
-                    //reset json values for answer and solver
+                    // Reset answer and solvers
                     answer.solvers = [];
                     answer.answer = null;
 
@@ -139,10 +135,9 @@ module.exports = {
         }
         // The command is a submission
         else {
-            //check if cooldown
+            // Check if the user is on cooldown
             if (cooldown.has(msg.author.id)) {
                 msg.react("⌛");
-
                 return msg.delete({timeout : 3000});
             }
 
@@ -195,20 +190,22 @@ module.exports = {
                         channel.send(`<@${msg.author.id}> solved it!`);
                     });
 
+                // React and delete the message if it isn't a dm
                 msg.react("✅");
                 if (msg.channel.type != "dm")
                     return msg.delete({ timeout: 3000 });
                 else
                     return
             }
+            // The answer was wrong
             else {
+                // React and delete the message if it isn't a dm
                 msg.react("❌");
+                if (msg.channel.type != "dm")
+                    msg.delete({ timeout: 3000 });
 
-                msg.delete({ timeout: 3000 });
-
-                //add cooldown 10 sec
+                // Put the user on cooldown for 10 seconds
                 cooldown.add(msg.author.id);
-
                 setTimeout(() => cooldown.delete(msg.author.id), 10000);
             }
         }
