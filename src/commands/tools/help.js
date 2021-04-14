@@ -41,7 +41,7 @@ module.exports = {
         // If there is a command specified for help
         if(args[0]) {
             // Get the command from bot
-            let c = client.commands.get(args[0]);
+            let c = client.commands.get(args[0].toLowerCase());
 
             // Use our embed function to make the help embed for the command if it exists
             if (c) return msg.channel.send(makeEmbed(c));
